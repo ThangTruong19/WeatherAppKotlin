@@ -5,4 +5,4 @@ data class ForecastList(val city:String,val country:String,val dailyForecast:Lis
     fun size() = dailyForecast.size
 }
 
-data class DomainForecast(val date:String,val description:String,val high:Int,val low:Int)
+data class DomainForecast(val date:String,val description:String,val high:Int,val low:Int,val iconUrl:String)

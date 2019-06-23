@@ -10,7 +10,8 @@ import java.util.*
 public class ForecastDataMapper{
 
     fun convertFromDataModel(forecastResult: ForecastResult): ForecastList{
-        return ForecastList(forecastResult.city.name,forecastResult.city.country,convertForecastListToDomain(forecastResult.list))
+        return ForecastList(forecastResult.city.name,forecastResult.city.country
+            ,convertForecastListToDomain(forecastResult.list))
     }
 
     private fun convertForecastListToDomain(list: List<Forecast>):List<DomainForecast>{
@@ -18,8 +19,11 @@ public class ForecastDataMapper{
     }
 
     private fun convertForecastItemToDomain(forecast: Forecast):DomainForecast{
-        return DomainForecast(convertDate(forecast.dt),forecast.weather[0].description,forecast.temp.max.toInt(),forecast.temp.min.toInt())
+        return DomainForecast(convertDate(forecast.dt),forecast.weather[0].description,forecast.temp.max.toInt()
+            ,forecast.temp.min.toInt(),generateIconUrl(forecast.weather[0].icon))
     }
+
+    private fun generateIconUrl(iconCode:String):String = "http://openweathermap.org/img/w/$iconCode.png"
 
     private fun convertDate(date:Long):String{
         val df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault())
