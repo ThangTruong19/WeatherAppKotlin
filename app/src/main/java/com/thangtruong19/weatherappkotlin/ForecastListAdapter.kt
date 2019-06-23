@@ -11,7 +11,7 @@ import com.thangtruong19.weatherappkotlin.domain.model.DomainForecast
 import com.thangtruong19.weatherappkotlin.domain.model.ForecastList
 import org.jetbrains.anko.find
 
-class ForecastListAdapter(val forecastList: ForecastList,val itemClick: OnItemClickListener) : RecyclerView.Adapter<ForecastListAdapter.ViewHolder>(){
+class ForecastListAdapter(val forecastList: ForecastList,val itemClick: (DomainForecast) -> Unit) : RecyclerView.Adapter<ForecastListAdapter.ViewHolder>(){
     override fun getItemCount(): Int {
         return forecastList.size()
     }
@@ -27,13 +27,13 @@ class ForecastListAdapter(val forecastList: ForecastList,val itemClick: OnItemCl
         }
     }
 
-    class ViewHolder(val view: View,val itemClick:OnItemClickListener) :RecyclerView.ViewHolder(view){
+    class ViewHolder(val view: View,val itemClick:(DomainForecast) -> Unit) :RecyclerView.ViewHolder(view){
         private val iconView:ImageView = view.find(R.id.icon)
         private val dateView:TextView = view.find(R.id.date)
         private val descriptionView:TextView = view.find(R.id.description)
         private val maxTempatureView:TextView = view.find(R.id.maxTemperature)
         private val minTempatureView:TextView = view.find(R.id.minTemperature)
-
+    
         fun bindForecast(forecast: DomainForecast){
             with(forecast){
                 Picasso.with(itemView.context).load(iconUrl).into(iconView)
@@ -41,13 +41,11 @@ class ForecastListAdapter(val forecastList: ForecastList,val itemClick: OnItemCl
                 descriptionView.text = description
                 maxTempatureView.text = "${high}º"
                 minTempatureView.text = "${low}º"
-                itemView.setOnClickListener { itemClick.invoke(this) }
+                itemView.setOnClickListener { itemClick(this) }
             }
         }
 
     }
 
-    interface OnItemClickListener{
-        operator fun invoke(forecast: DomainForecast)
-    }
+
 }
